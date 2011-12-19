@@ -10,7 +10,7 @@
 		{
 			$this->api['URL'] = 'api.midealervirtual.com/s/dealer_vehicles/';
 			$this->api['FORMAT'] = 'format/json';
-			$this->api['AUTH'] = (object) array( 'uname' => 'mujamil', 'pword' => 'jamil123' );
+			$this->api['AUTH'] = (object) array( 'uname' => 'dev', 'pword' => 'code123' );
 		}
 	
 	# Public methods	
@@ -39,7 +39,7 @@
 	$api = new api_call();
 	
 	// Fetch vehicles by using interace
-	$vehicles_json = file_get_contents( $api->getDealerVehicles( 5 /* ID of a Client of ours */ ) );
+	$vehicles_json = file_get_contents( $api->getDealerVehicles( $_GET['cid'] /* ID of a Client of ours */ ) );
 	// Remember the format is returned
 	
 	// Decode json objects
