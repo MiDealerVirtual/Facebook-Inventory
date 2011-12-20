@@ -45,19 +45,13 @@
 	// Decode json objects
 	$vehicles = json_decode( $vehicles_json ); // Convert json string into php object
 	
+	// Fields available: VEH_ID, CLIENT_ID, CATEGORY, PRICE, PRICE_STRING, HIDE_PRICE, BASE_PRICE, NEGOTIABLE, TYPE, CONDITION, KEYWORDS, DESCRIPTION, FEATURES, MAKE, MODEL, TRIM, YEAR, MILEAGE, VIN, TRANSMISSION, COLOR, VIDEO_EMBED_CODE, PAUSED, SOLD, DELETED, VIEWS, TELEPHONE_VIEWS, IOL_EDIT_STATUS, IOL_IMAGE, EDIT_DATE, CREATED_DATE, IMAGE, TELEPHONE
+	
 	// Loop thru results
 	foreach( $vehicles as $v )
 	{
-		// Display all fields of $v
-		$fields = "";
-		foreach( $v as $f => $val )
-		{
-			$fields .= $f.", ";
-		}
-		echo trim( $fields, ", " )."<br /><br />";
-		
 		// Example of usage
-		# echo $v->MAKE." ".$v->MODEL." ".$v->YEAR." ".$v->VIN."<br /><br />";
+		echo $v->MAKE." ".$v->MODEL." ".$v->YEAR." ".$v->VIN."<br /><br />";
 		
 		// To see all fields of $v
 		# print_r( $v );
