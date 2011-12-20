@@ -8,7 +8,7 @@
 		// Constructor
 		public function __construct()
 		{
-			$this->api['URL'] = 'api.midealervirtual.com/s/dealer_vehicles/';
+			$this->api['URL'] = 'api.midealervirtual.com/s/';
 			$this->api['FORMAT'] = 'format/json';
 			$this->api['AUTH'] = (object) array( 'uname' => 'dev', 'pword' => 'code123' );
 		}
@@ -18,8 +18,22 @@
 		// Get dealer vehicles
 		public function getDealerVehicles( $cid /* client id */ )
 		{
+			// This call's API segment
+			$api_segment = "dealer_vehicles/";
+			
 			// API url
-			$url_to_use = $this->api['URL'].$this->api['FORMAT']."?cid=".$cid;
+			$url_to_use = $this->api['URL'].$api_segment.$this->api['FORMAT']."?cid=".$cid;
+			return $this->authAPICall( $url_to_use );
+		}
+		
+		// Get dealer's vehicle's information
+		public function getVehicle( $cid /* client id */, $vid /* vehicle id */ )
+		{
+			// This call's API segment
+			$api_segment = "vehicle/";
+			
+			// API url
+			$url_to_use = $this->api['URL'].$api_segment.$this->api['FORMAT']."?cid=".$cid."&vid=".$vid;
 			return $this->authAPICall( $url_to_use );
 		}
 		
@@ -33,13 +47,13 @@
 		}
 	}
 	
-# Example of how to use this class: (Comment out and include this file to your index.php when you are ready to use)
-
 	// create api interface
 	$api = new api_call();
 	
+/* # Example of how to use this class: (Comment out and include this file to your index.php when you are ready to use)
+	
 	// Fetch vehicles by using interace
-	$vehicles_json = file_get_contents( $api->getDealerVehicles( $_GET['cid'] /* ID of a Client of ours */ ) );
+	$vehicles_json = file_get_contents( $api->getDealerVehicles( $_GET['cid'] ) );
 	// Remember the format is returned
 	
 	// Decode json objects
@@ -57,5 +71,18 @@
 		# print_r( $v );
 	}
 	
+# End Example */
+
+# Example #2: Fetch a single car
+
+	// Fetch single vehicle by using interace
+	$single_vehicle_json = file_get_contents( $api->getVehicle( $_GET['cid'], $_GET['vid'] ) );
+	
+	// Decode json object
+	$single_vehicle = json_decode( $single_vehicle_json ); // Convert json string into php object
+	
+	// Print vehicle's data
+	print_r( $single_vehicle );
+
 # End Example
 ?>
