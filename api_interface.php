@@ -48,8 +48,11 @@
 	// Loop thru results
 	foreach( $vehicles as $v )
 	{
+		// Example of usage
 		echo $v->MAKE." ".$v->MODEL." ".$v->YEAR." ".$v->VIN."<br /><br />";
-		// print_r( $v ); // To see all fields of $v
+		
+		// To see all fields of $v
+		# print_r( $v );
 	}
 	
 # End Example
