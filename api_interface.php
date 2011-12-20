@@ -50,7 +50,7 @@
 	{
 		// Display all fields of $v
 		$fields = "";
-		foreach( array_keys( $v ) as $f )
+		foreach( $v as $f => $val )
 		{
 			$fields .= $f.", ";
 		}
