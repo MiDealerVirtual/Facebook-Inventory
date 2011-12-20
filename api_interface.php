@@ -48,8 +48,16 @@
 	// Loop thru results
 	foreach( $vehicles as $v )
 	{
+		// Display all fields of $v
+		$fields = "";
+		foreach( array_keys( $v ) as $f )
+		{
+			$fields .= $f.", ";
+		}
+		echo trim( $fields, ", " )."<br /><br />";
+		
 		// Example of usage
-		echo $v->MAKE." ".$v->MODEL." ".$v->YEAR." ".$v->VIN."<br /><br />";
+		# echo $v->MAKE." ".$v->MODEL." ".$v->YEAR." ".$v->VIN."<br /><br />";
 		
 		// To see all fields of $v
 		# print_r( $v );
