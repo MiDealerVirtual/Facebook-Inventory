@@ -66,6 +66,7 @@
 	{
 		// Example of usage
 		echo $v->MAKE." ".$v->MODEL." ".$v->YEAR." ".$v->VIN."<br /><br />";
+		//echo $v->IMAGE;"<br>";
 		
 		// To see all fields of $v
 		# print_r( $v );
