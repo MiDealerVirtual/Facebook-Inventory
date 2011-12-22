@@ -1,29 +1,3 @@
-<?php 
-	//including api_interface file
-	require_once("api_interface.php");
-	
-	//$cid will be used as dealer id
-	$cid=0;
-	$cid=$_GET['cid'];
-	
-	//if no dealer id is set, dealer id 5 will be used as default
-	if ($cid==0)
-	{
-		$cid=5;
-	}
-	
-	//Api object declaration
-	$api = new api_call();
-	
-	// Fetch vehicles by using interace
-	$vehicles_json = file_get_contents( $api->getDealerVehicles( $cid /* ID of a Client of ours */ ) );
-	// Remember the format is returned
-	
-	// Decode json objects
-	$vehicles = json_decode( $vehicles_json ); // Convert json string into php object
-	
-	
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,53 +12,32 @@
         	<!-- start squared / list -->
             <div class="squared clearfix" id="jq_inventory_view">
             <?
-					// Fields available: VEH_ID, CLIENT_ID, CATEGORY, PRICE, PRICE_STRING, HIDE_PRICE, BASE_PRICE, NEGOTIABLE, TYPE, CONDITION, KEYWORDS, DESCRIPTION, FEATURES, MAKE, MODEL, TRIM, YEAR, MILEAGE, VIN, TRANSMISSION, COLOR, VIDEO_EMBED_CODE, PAUSED, SOLD, DELETED, VIEWS, TELEPHONE_VIEWS, IOL_EDIT_STATUS, IOL_IMAGE, EDIT_DATE, CREATED_DATE, IMAGE, TELEPHONE
-	
-			// Loop thru results
-			foreach( $vehicles as $v )
-			{
-				// Example of usage
-				//echo $v->MAKE." ".$v->MODEL." ".$v->YEAR." ".$v->VIN."<br /><br />";
-				//echo $v->IMAGE;"<br>";
-				
-				// To see all fields of $v
-				# print_r( $v );
-				
+				for( $i = 0; $i < 10; $i++ )
+				{
 			?>
                 <!-- start result -->
                 <div class="box_result clearfix">
                     <!-- start thumb -->
                     <div class="thumbs">
-                    	<?php
-							// checking if IOL_IMAGE is set to 1. To set the image pagth
-                        	if($v->IOL_IMAGE=='1')
-							{
-								$imgPath="http://www.midealervirtual.com/vpics/iol_imports/thumb/thumb_";
-							}
-							else
-							{
-								$imgPath="http://www.midealervirtual.com/vpics/thumb/thumb_";
-							}
-						?>
-                        <a href="inventario/kia-sorento-ex-2011-428" title="<?php echo $v->MAKE." ".$v->MODEL;?>" ><img src=<?php echo $imgPath.$v->IMAGE; ?> alt="<?php echo $v->MAKE." ".$v->MODEL;?>" title="<?php echo $v->MAKE." ".$v->MODEL;?>" /></a>
+                        <a href="inventario/kia-sorento-ex-2011-428" title="Kia Sorento Ex 2011"><img src="http://midealervirtual.com/vpics/thumb/thumb_c6v2263t110927140138.JPG" alt="Kia Sorento Ex 2011" title="Kia Sorento Ex 2011" /></a>
                     </div>
                     <!-- end thumb -->
                     
                     <!-- start info -->
                     <div class="info">
                         <div class="result_title">
-                            <a href="inventario/kia-sorento-ex-2011-428" title="<?php echo $v->MAKE." ".$v->MODEL;?>"><?php echo $v->MAKE." ".$v->MODEL;?></a>
+                            <a href="inventario/kia-sorento-ex-2011-428" title="Kia Sorento Ex 2011">Kia Sorento Ex 2011</a>
                         </div>
                         <ul>
-                            <li><strong>A&ntilde;o:</strong> <?php echo $v->YEAR;?></li>
-                            <li><strong>Color:</strong> <?php echo $v->COLOR;?></li>
+                            <li><strong>A&ntilde;o:</strong> 2011</li>
+                            <li><strong>Color:</strong> Blanco</li>
                         </ul>
                         <ul>
-                            <li><strong>Condici&oacute;n:</strong> <?php echo $v->CONDITION;?></li>
-                            <li><strong>Transmisi&oacute;n: </strong> <?php echo $v->TRANSMISSION;?></li>
+                            <li><strong>Condici&oacute;n:</strong> Nuevo</li>
+                            <li><strong>Transmisi&oacute;n: </strong> Autom&aacute;tico</li>
                         </ul>
                         <ul>
-                            <li><strong>VIN:</strong><?php echo $v->VIN;?></li>
+                            <li><strong>VIN:</strong>5XYKU4A21BG044428</li>
                             <li>&nbsp;</li>
                         </ul>
                     </div>

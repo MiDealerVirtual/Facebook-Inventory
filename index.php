@@ -1,1 +1,1 @@
-<a href="api_interface.php?cid=5">View Vehicles</a>
+<a href="vehicle_list.php?cid=5">View Vehicles</a>
