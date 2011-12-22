@@ -255,3 +255,72 @@ a {
 	width:86px;
 	padding:2px;
 }
+
+/* Detail Page */
+.content {
+	margin:0;
+	border:0px solid red;
+	padding:0px 20px 20px 20px;
+}
+.title_detail h1 {
+	font-size:40px;
+	font-weight:400;
+	margin:0 0 0px 0px;
+	color:#000;
+	height:60px;
+	line-height:60px;
+	overflow:hidden;
+	padding:0 0 0 0px;
+	text-transform:uppercase;
+	background:none;
+}
+.box_detail_1 .price {
+	width:255px;
+	overflow:hidden;
+	margin:0 0 0 10px;
+}
+.box_detail_2 {
+	width:340px;
+	height:226px;
+	float:left;
+	display:block;
+	overflow:hidden;
+	margin:0 0px 0px 0;
+	padding:4px;
+	border:1px solid #ddd;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px; /* future proofing */
+	-khtml-border-radius: 5px; /* for old Konqueror browsers */
+	behavior: url(PIE.htc);
+}
+.box_detail_3 {
+	width:53px; /*350px;*/
+	height:50px;
+	float:left;
+	padding:5px 0 0px 5px;
+	margin:0 0 0 0;
+	background:url(../img/icon_thumbs_bk.png) 0 0 no-repeat;
+}
+.box_detail_1 li {
+	border-bottom:1px dotted #ddd;
+	padding:5px 0;
+	margin:0 0 0 10px;
+}
+.box_detail_3 span {
+	font-size:.875em;
+	display:block;
+	padding:0;
+	margin:3px 0px;
+}
+.thumb_tiny {
+	width:52px;
+	height:35px;
+	padding:0px;
+	margin:2px 3px 0px 2px;
+	border:0px solid #ddd;
+	display:block;
+	float:left;
+	overflow:hidden;
+	background:#fff;
+}
