@@ -11,14 +11,19 @@
 	// Decode json object
 	$single_vehicle = json_decode( $single_vehicle_json ); // Convert json string into php object
 	
+	// Getting images of selected vehicle
+	$vehicle_images = $api->makeCall( $api->getVehicleImages( $_GET['vid'] ) );
+	
 	// checking if IOL_IMAGE is set to 1. To set the image pagth
 	if($single_vehicle->IOL_IMAGE=='1')
 	{
+		$bigImgPath="http://midealervirtual.com/vpics/iol_imports/web/";
 		$imgPath="http://www.midealervirtual.com/vpics/iol_imports/med/med_";
 		$TinyImgPath="http://www.midealervirtual.com/vpics/iol_imports/tiny/tiny_";
 	}
 	else
 	{
+		$bigImgPath="http://midealervirtual.com/vpics/web/";
 		$imgPath="http://www.midealervirtual.com/vpics/med/med_";
 		$TinyImgPath="http://www.midealervirtual.com/vpics/tiny/tiny_";
 	}
@@ -30,13 +35,26 @@
 	<title>Insert Dealer Name Here</title>
     <link type="text/css" rel="stylesheet" href="vehicles.css" />
     
+	<script type="text/javascript" src="js/jquery.js"></script>
+    <script src="js/cycle.js" type="text/javascript"></script>
+    
+	<script type="text/javascript" src="js/jquery.lightbox-0.5.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery.lightbox-0.5.css" media="screen" />
+    
+	
     <script type="text/javascript">
 		//Setting image in main div
-		function setImage(imgSrc)
+		function setImage(imgSrc,TSrc)
 		{
+			document.getElementById("main_pic").innerHTML="<ul><li><a href='"+imgSrc+"' title='<?php echo $single_vehicle->MAKE.' '.$single_vehicle->MODEL.' '.$single_vehicle->YEAR; ?>'><img src="+TSrc+" /></a></li></ul>";
 			
-			document.getElementById("main_pic").innerHTML="<a href='<?php echo $imgPath.$single_vehicle->IMAGE;?>' title='<?php echo $single_vehicle->MAKE.' '.$single_vehicle->MODEL.' '.$single_vehicle->YEAR; ?>'><img src="+imgSrc+" /></a>";
+			$('#main_pic a').lightBox().triger('click');
 		}
+		
+		$(function() {
+            $('#main_pic a').lightBox();
+        });
+    
 	</script>
 </head>
 <body>
@@ -49,23 +67,23 @@
 	            <div class="title_detail"><h1><?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?></h1></div>
             
             	<div class="box_detail_2">
-		            <div class="thumb_med" id="main_pic">
-			            <a href="<?php echo $imgPath.$single_vehicle->IMAGE;?>" title="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>"><img src="<?php echo $imgPath.$single_vehicle->IMAGE;?>" title="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" alt="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" /></a>
+		            <div class="thumb_med" id="main_pic"><ul><li>
+			            <a href="<?php echo $bigImgPath.$single_vehicle->IMAGE;?>" title="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>"><img src="<?php echo $imgPath.$single_vehicle->IMAGE;?>" title="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" alt="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" /></a></li></ul>
 		            </div>
 	            </div>
                 
                 <div class="box_detail_3">
-                    <div class="thumb_tiny"><a href="#" onClick="setImage('<?php echo $imgPath.$single_vehicle->IMAGE;?>');" title="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>">
-                    <img src="<?php echo $TinyImgPath.$single_vehicle->IMAGE;?>" alt="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" title="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" /></a></div>
+                	<?php foreach( $vehicle_images as $vImg )
+							{ 
+								//print_r($vImg);
+							?>
+                            
+                    <div class="thumb_tiny"><a href="#" onClick="setImage('<?php echo $bigImgPath.$vImg->IMAGE_NAME;?>','<?php echo $imgPath.$vImg->IMAGE_NAME;?>');" title="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>">
+                    <img src="<?php echo $TinyImgPath.$vImg->IMAGE_NAME;?>" alt="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" title="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" /></a></div>
                     
-                    <div class="thumb_tiny"><a href="#" onClick="setImage('<?php echo $imgPath.$single_vehicle->IMAGE;?>');" title="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" >
-                    <img src="<?php echo $TinyImgPath.$single_vehicle->IMAGE;?>" alt="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" title="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" /></a></div>
+                    <?php }?>
                     
-                    <div class="thumb_tiny"><a href="#" onClick="setImage('<?php echo $imgPath.$single_vehicle->IMAGE;?>');" title="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" >
-                    <img src="<?php echo $TinyImgPath.$single_vehicle->IMAGE;?>" alt="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" title="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" /></a></div>
                     
-                    <div class="thumb_tiny"><a href="#" onClick="setImage('<?php echo $imgPath.$single_vehicle->IMAGE;?>');" title="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" >
-                    <img src="<?php echo $TinyImgPath.$single_vehicle->IMAGE;?>" alt="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" title="<?php echo $single_vehicle->MAKE." ".$single_vehicle->MODEL." ".$single_vehicle->YEAR; ?>" /></a></div>
                     <div class="clear"></div>
                     
                 </div>

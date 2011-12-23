@@ -33,8 +33,10 @@
 	$PreviousPage=$prev_page;
 	
 	// Call to api to load vehicles for selected page number
-	$vehicles = $api->makeCall( $api->getDealerVehicles( $cid , $page , 10 ));
-		
+	
+	$vehicles = $api->makeCall( $api->getDealerVehicles( $cid , $page*10 , 10 ));
+	
+	//$vehicles = $api->makeCall( $api->getDealerVehicles( 5 , 7 , 10 ) );
 
 ?>
 <!DOCTYPE html>
