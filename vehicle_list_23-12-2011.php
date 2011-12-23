@@ -2,19 +2,10 @@
 	//including api_interface file
 	require_once("api_interface.php");
 	
-	//including functions file
-	require_once("functions.php");
-	
 	//$cid will be used as dealer id
 	$cid=0;
 	$cid=$_GET['cid'];
 	
-	//$page is the current page number, if no page is selected it will be 1.
-	$page=$_GET['page'];
-	if(!isset($_GET['page']))
-	{
-		$page=1;
-	}
 	//if no dealer id is set, dealer id 5 will be used as default
 	if ($cid==0)
 	{
@@ -24,18 +15,15 @@
 	//Api object declaration
 	$api = new api_call();
 	
-	// Getting total number of vehicles
-	$total_vehicles=$api->makeCall( $api->getDealerCount($cid));
+	// Fetch vehicles by using interace
+	$vehicles_json = file_get_contents( $api->getDealerVehicles( $cid /* ID of a Client of ours */ ) );
+	// Remember the format is returned
 	
-	// Call to pagination function to set values (Total pages, Next Page, Previous page)
-	$total_pages=paginationStart($total_vehicles,10);
-	$NextPage=$next_page;
-	$PreviousPage=$prev_page;
+	//$vehicles = $api->makeCall( $api->getDealerVehicles( $cid , 5 , 10 ));
 	
-	// Call to api to load vehicles for selected page number
-	$vehicles = $api->makeCall( $api->getDealerVehicles( $cid , $page , 10 ));
-		
-
+	// Decode json objects
+	$vehicles = json_decode( $vehicles_json ); // Convert json string into php object
+	
 ?>
 <!DOCTYPE html>
 <html>
@@ -103,16 +91,7 @@
 			?>
             </div>
             <!-- end squared / list -->
-            
-            <!-- pagination footer div -->
-            <div class="squared clearfix" id="pagination_footer">
-            	<?php paginationFooter("cid=".$cid,"vehicle_list.php",$total_pages,$NextPage,$PreviousPage);
-				?>
-            </div>
-            <!-- end pagination footer div -->
-            
 		</div>
-        
         <!-- end main-->
     </div>
     <!-- end container -->
