@@ -15,18 +15,54 @@
 	
 	# Public methods	
 	
-		// Get dealer vehicles
-		public function getDealerVehicles( $cid /* client id */ )
+		// Get dealer data
+		// Return: dealer (std object)
+		public function getDealer( $cid /* client id */ )
 		{
 			// This call's API segment
-			$api_segment = "dealer_vehicles/";
+			$api_segment = "dealer/";
 			
 			// API url
 			$url_to_use = $this->api['URL'].$api_segment.$this->api['FORMAT']."?cid=".$cid;
 			return $this->authAPICall( $url_to_use );
 		}
 		
+		// Get dealer vehicle count
+		// Return: total vehicle count (int)
+		public function getDealerCount( $cid /* client id */ )
+		{
+			// This call's API segment
+			$api_segment = "dealer_vehicle_count/";
+			
+			// API url
+			$url_to_use = $this->api['URL'].$api_segment.$this->api['FORMAT']."?cid=".$cid;
+			return $this->authAPICall( $url_to_use );
+		}
+		
+		// Get dealer vehicles
+		// Return: dealer vehicles (std object)
+		public function getDealerVehicles( $cid /* client id */, 
+										   $offset = false /* offest of results */,
+										   $limit = false /* limit results */,
+										   $order_by = false /* order results by */,
+										   $order_dir = false /* ordering direction */ )
+		{
+			// This call's API segment
+			$api_segment = "dealer_vehicles/";
+			
+			// Prepare appended varibales
+			$extra_vars = ( ( $order_by ) ? '&order_by='.$order_by : '' ).
+						  ( ( $order_dir ) ? '&order_dir='.$order_dir : '' ).
+						  ( ( $offset ) ? '&offset='.$offset : '' ).
+						  ( ( $limit ) ? '&limit='.$limit : '' );
+			
+			// API url
+			$url_to_use = $this->api['URL'].$api_segment.$this->api['FORMAT']."?cid=".$cid.$extra_vars;
+			return $this->authAPICall( $url_to_use );
+		}
+		
 		// Get dealer's vehicle's information
+		// Return: vehicle (std object)
 		public function getVehicle( $cid /* client id */, $vid /* vehicle id */ )
 		{
 			// This call's API segment
@@ -36,6 +72,30 @@
 			$url_to_use = $this->api['URL'].$api_segment.$this->api['FORMAT']."?cid=".$cid."&vid=".$vid;
 			return $this->authAPICall( $url_to_use );
 		}
+		
+		// Get dealer's vehicle's images
+		// Return: vehicle images (std object)
+		public function getVehicleImages( $vid /* vehicle id */ )
+		{
+			// This call's API segment
+			$api_segment = "vehicle_images/";
+			
+			// API url
+			$url_to_use = $this->api['URL'].$api_segment.$this->api['FORMAT']."?vid=".$vid;
+			return $this->authAPICall( $url_to_use );
+		}
+		
+		// Make call and process result
+		// Return: result(s) (std object)
+		public function makeCall( $rest_call /* REST api url to execute */ )
+		{
+			// Fetch data
+			$json = file_get_contents( $rest_call );
+			
+			// Return decoded json object
+			return json_decode( $json ); // Convert json string into php object	
+		}
+		
 		
 	# Private methods
 		
@@ -47,46 +107,20 @@
 		}
 	}
 	
+/* # Example - paginate results:
+
 	// create api interface
 	$api = new api_call();
 	
-/* # Example of how to use this class: (Comment out and include this file to your index.php when you are ready to use)
+	// fetch paginated results
+	$vehicles = $api->makeCall( $api->getDealerVehicles( 5 /* client id * /, 5 /* offset * /, 10 /* limit * / ) );
 	
-	// Fetch vehicles by using interace
-	
-	$vehicles_json = file_get_contents( $api->getDealerVehicles( $_GET['cid'] ) );
-	// Remember the format is returned
-	
-	// Decode json objects
-	$vehicles = json_decode( $vehicles_json ); // Convert json string into php object
-	
-	// Fields available: VEH_ID, CLIENT_ID, CATEGORY, PRICE, PRICE_STRING, HIDE_PRICE, BASE_PRICE, NEGOTIABLE, TYPE, CONDITION, KEYWORDS, DESCRIPTION, FEATURES, MAKE, MODEL, TRIM, YEAR, MILEAGE, VIN, TRANSMISSION, COLOR, VIDEO_EMBED_CODE, PAUSED, SOLD, DELETED, VIEWS, TELEPHONE_VIEWS, IOL_EDIT_STATUS, IOL_IMAGE, EDIT_DATE, CREATED_DATE, IMAGE, TELEPHONE
-	
-	// Loop thru results
+	// display results
+	$i = 1;
 	foreach( $vehicles as $v )
 	{
-		// Example of usage
-		echo $v->MAKE." ".$v->MODEL." ".$v->YEAR." ".$v->VIN."<br /><br />";
-		//echo $v->IMAGE;"<br>";
-		
-		// To see all fields of $v
-		# print_r( $v );
+		echo $i++ ."- ". $v->MAKE." ".$v->MODEL."<br />"; 	
 	}
 	
-# End Example */
-
-
-# Example #2: Fetch a single car
-
-	// Fetch single vehicle by using interace
-//	$single_vehicle_json = file_get_contents( $api->getVehicle( $_GET['cid'], $_GET['vid'] ) );
-	
-	// Decode json object
-//	$single_vehicle = json_decode( $single_vehicle_json ); // Convert json string into php object
-	
-	// Print vehicle's data
-//	print_r( $single_vehicle );
-
-# End Example
-
+# End example */
 ?>
