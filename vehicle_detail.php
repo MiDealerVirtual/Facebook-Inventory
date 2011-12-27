@@ -14,6 +14,7 @@
 	// Getting images of selected vehicle
 	$vehicle_images = $api->makeCall( $api->getVehicleImages( $_GET['vid'] ) );
 	
+	
 	// checking if IOL_IMAGE is set to 1. To set the image pagth
 	if($single_vehicle->IOL_IMAGE=='1')
 	{
@@ -27,6 +28,14 @@
 		$imgPath="http://www.midealervirtual.com/vpics/med/med_";
 		$TinyImgPath="http://www.midealervirtual.com/vpics/tiny/tiny_";
 	}
+	
+	$vImages="";
+	foreach( $vehicle_images as $vImg )
+	{ 
+		$vImages.="'".$imgPath.$vImg->IMAGE_NAME."',";
+		//print_r($vImg);
+	}
+	$vImages=substr($vImages,0,strlen($vImages)-1);
 ?>
 
 <!DOCTYPE html>
@@ -43,23 +52,36 @@
     
 	
     <script type="text/javascript">
-		//Setting image in main div
+//Setting image in main div
 		function setImage(imgSrc,TSrc)
 		{
 			document.getElementById("main_pic").innerHTML="<ul><li><a href='"+imgSrc+"' title='<?php echo $single_vehicle->MAKE.' '.$single_vehicle->MODEL.' '.$single_vehicle->YEAR; ?>'><img src="+TSrc+" /></a></li></ul>";
 			
-			$('#main_pic a').lightBox().triger('click');
+			//REFRESHING GALLERY IMAGE
+			RefreshGallery();
+
+		}
+		
+		//UPDATING IMAGE LINK IN JQUERY LIGHTBOX PLUGIN
+		function RefreshGallery()
+		{
+			$('#main_pic a').lightBox();
 		}
 		
 		$(function() {
             $('#main_pic a').lightBox();
         });
-    
-	</script>
+		
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+    </script>
 </head>
-<body>
+<body onLoad="MM_preloadImages(<?php echo $vImages;?>)" >
 	<!-- start container -->
-    <div id="container">
+  <div id="container">
     	<!-- start main -->
 		<div id="main">     
             <!-- start content -->
@@ -84,7 +106,7 @@
                     <?php }?>
                     
                     
-                    <div class="clear"></div>
+                  <div class="clear"></div>
                     
                 </div>
                 
