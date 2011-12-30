@@ -37,12 +37,14 @@
 	$vehicles = $api->makeCall( $api->getDealerVehicles( $cid , $page*10 , 10 ));
 	
 	//$vehicles = $api->makeCall( $api->getDealerVehicles( 5 , 7 , 10 ) );
-
+	
+	//Getting Delaer name
+	$dealer=$api->makeCall( $api->getDealer($cid));
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Insert Dealer Name Here</title>
+	<title><?php echo $dealer->DISPLAY_NAME;?></title>
     <link type="text/css" rel="stylesheet" href="vehicles.css" />
 </head>
 <body>
@@ -96,6 +98,13 @@
                             <li><strong>VIN:</strong><?php echo $v->VIN;?></li>
                             <li>&nbsp;</li>
                         </ul>
+                        <ul><li>&nbsp;</li><li>
+                        <a name="fb_share" type="button" share_url="www.isoft-tech.com/midealervirtual/vehicle_detail.php?cid=<?php echo $cid;?>&vid=<?php echo $v->VEH_ID;?>">Share</a> 
+						<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" 
+                                type="text/javascript">
+                        </script>
+                        </li>
+                     	</ul>
                     </div>
                     <!-- end info -->
                 </div>
